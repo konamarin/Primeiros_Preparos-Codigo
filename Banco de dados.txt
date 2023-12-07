@@ -1,0 +1,25 @@
+CREATE SCHEMA IF NOT EXISTS primprep;
+use primprep;
+
+CREATE TABLE IF NOT EXISTS usuarios (
+	idusuarios INT NOT NULL UNIQUE AUTO_INCREMENT,
+    email VARCHAR(30) NOT NULL unique,
+    senha VARCHAR(15) NOT NULL,
+    tipo ENUM('U', 'M', 'A') NOT NULL DEFAULT 'U',
+    nome VARCHAR(30) NOT NULL,
+    foto BLOB NULL,
+    PRIMARY KEY(idusuarios)
+);
+
+CREATE TABLE IF NOT EXISTS respostas (
+	idrespostas INT NOT NULL UNIQUE AUTO_INCREMENT,
+    conteudo VARCHAR(500) NOT NULL,
+    FOREIGN KEY(id_usuarios) REFERENCES usuarios(idusuarios)
+);
+
+CREATE TABLE IF NOT EXISTS perguntas (
+	idperguntas INT NOT NULL UNIQUE AUTO_INCREMENT,
+    FOREIGN KEY(id_usuarios) REFERENCES usuarios(idusuarios),
+    descricao VARCHAR(500) NOT NULL,
+    FOREIGN KEY(id_respostas) REFERENCES respostas(idrespostas)
+);
